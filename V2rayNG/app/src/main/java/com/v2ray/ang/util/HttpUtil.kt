@@ -1,6 +1,10 @@
 package com.v2ray.ang.util
 
+import android.app.Application
+import android.content.Context
+import android.provider.Settings
 import android.util.Log
+import com.v2ray.ang.AngApplication
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.AppConfig.LOOPBACK
 import com.v2ray.ang.BuildConfig
@@ -128,7 +132,7 @@ object HttpUtil {
      * @throws IOException If an I/O error occurs.
      */
     @Throws(IOException::class)
-    fun getUrlContentWithUserAgent(url: String?, userAgent: String?,  timeout: Int = 15000, httpPort: Int = 0): String {
+    fun getUrlContentWithCustomHeaders(url: String?, headers: Map<String, String?>, timeout: Int = 15000, httpPort: Int = 0): String {
         var currentUrl = url
         var redirects = 0
         val maxRedirects = 3
@@ -136,12 +140,14 @@ object HttpUtil {
         while (redirects++ < maxRedirects) {
             if (currentUrl == null) continue
             val conn = createProxyConnection(currentUrl, httpPort, timeout, timeout) ?: continue
-            val finalUserAgent = if (userAgent.isNullOrBlank()) {
-                "v2rayNG/${BuildConfig.VERSION_NAME}"
-            } else {
-                userAgent
+
+            val userAgent = headers.getOrElse("User-agent") { "v2rayNG/${BuildConfig.VERSION_NAME}" }
+            val hwid = headers.getOrElse("X-HWID") {
+                Settings.Secure.getString(AngApplication.application.contentResolver, Settings.Secure.ANDROID_ID)
             }
-            conn.setRequestProperty("User-agent", finalUserAgent)
+
+            conn.setRequestProperty("User-agent", userAgent)
+            conn.setRequestProperty("X-HWID", hwid)
             conn.connect()
 
             val responseCode = conn.responseCode
