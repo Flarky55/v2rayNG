@@ -532,11 +532,11 @@ object AngConfigManager {
             }
             Log.i(AppConfig.TAG, url)
             val userAgent = it.subscription.userAgent?.takeIf { it.isNotBlank() }
-            val hwid = it.subscription.hwid?.takeIf { it.isNotBlank() }
+            val hwid = it.subscription.hwid?.takeIf { it.isNotBlank() } ?: Utils.getHardwareId()
 
             var configText = try {
                 val httpPort = SettingsManager.getHttpPort()
-                HttpUtil.getUrlContentWithCustomHeaders(url, mapOf(
+                HttpUtil.getUrlContentWithHeaders(url, mapOf(
                     "User-agent" to userAgent,
                     "X-HWID" to hwid
                 ), 15000, httpPort)
@@ -546,7 +546,7 @@ object AngConfigManager {
             }
             if (configText.isEmpty()) {
                 configText = try {
-                    HttpUtil.getUrlContentWithCustomHeaders(url, mapOf(
+                    HttpUtil.getUrlContentWithHeaders(url, mapOf(
                         "User-agent" to userAgent,
                         "X-HWID" to hwid
                     ))
