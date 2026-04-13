@@ -3,7 +3,7 @@ package com.v2ray.ang.util
 import android.util.Log
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.AppConfig.LOOPBACK
-import com.v2ray.ang.BuildConfig
+import com.v2ray.ang.extension.isNotNullEmpty
 import com.v2ray.ang.util.Utils.encode
 import com.v2ray.ang.util.Utils.urlDecode
 import java.io.IOException
@@ -122,13 +122,14 @@ object HttpUtil {
      * Retrieves the content of a URL as a string with a custom User-Agent header.
      *
      * @param url The URL to fetch content from.
+     * @param headers The headers.
      * @param timeout The timeout value in milliseconds.
      * @param httpPort The HTTP port to use.
      * @return The content of the URL as a string.
      * @throws IOException If an I/O error occurs.
      */
     @Throws(IOException::class)
-    fun getUrlContentWithUserAgent(url: String?, userAgent: String?,  timeout: Int = 15000, httpPort: Int = 0): String {
+    fun getUrlContentWithHeaders(url: String?, headers: Map<String, String?>, timeout: Int = 15000, httpPort: Int = 0): String {
         var currentUrl = url
         var redirects = 0
         val maxRedirects = 3
@@ -136,12 +137,13 @@ object HttpUtil {
         while (redirects++ < maxRedirects) {
             if (currentUrl == null) continue
             val conn = createProxyConnection(currentUrl, httpPort, timeout, timeout) ?: continue
-            val finalUserAgent = if (userAgent.isNullOrBlank()) {
-                "v2rayNG/${BuildConfig.VERSION_NAME}"
-            } else {
-                userAgent
+
+            headers.forEach { (key, value) ->
+                val value = value.takeIf { it.isNotNullEmpty() } ?: AppConfig.DEFAULT_HEADERS[key]
+
+                if (value != null) conn.setRequestProperty(key, value)
             }
-            conn.setRequestProperty("User-agent", finalUserAgent)
+
             conn.connect()
 
             val responseCode = conn.responseCode

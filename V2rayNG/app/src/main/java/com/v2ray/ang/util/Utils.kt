@@ -1,5 +1,6 @@
 package com.v2ray.ang.util
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -16,6 +17,7 @@ import android.util.Patterns
 import android.webkit.URLUtil
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import com.v2ray.ang.AngApplication
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.AppConfig.LOOPBACK
 import com.v2ray.ang.BuildConfig
@@ -602,5 +604,9 @@ object Utils {
             Log.e(AppConfig.TAG, "Failed to format timestamp", e)
             ""
         }
+    }
+
+    fun getHardwareId(): String {
+        return Settings.Secure.getString(AngApplication.application.contentResolver, Settings.Secure.ANDROID_ID)
     }
 }

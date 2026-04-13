@@ -11,7 +11,7 @@ object AppConfig {
     const val DIR_ASSETS = "assets"
 
     const val  WEBDAV_BACKUP_DIR = "backups"
-    const val  WEBDAV_BACKUP_FILE_NAME = "backup_ng.zip"
+    const val WEBDAV_BACKUP_FILE_NAME = "backup_ng.zip"
 
     /** Legacy configuration keys. */
     const val ANG_CONFIG = "ang_config"
@@ -215,6 +215,11 @@ object AppConfig {
     const val TLS = "tls"
     const val REALITY = "reality"
     const val HEADER_TYPE_HTTP = "http"
+
+
+    val DEFAULT_HEADERS = mapOf<String, String>(
+        "User-agent" to "v2rayNG/${BuildConfig.VERSION_NAME}",
+    )
 
     val DNS_ALIDNS_ADDRESSES = arrayListOf("223.5.5.5", "223.6.6.6", "2400:3200::1", "2400:3200:baba::1")
     val DNS_CLOUDFLARE_ONE_ADDRESSES = arrayListOf("1.1.1.1", "1.0.0.1", "2606:4700:4700::1111", "2606:4700:4700::1001")
