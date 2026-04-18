@@ -1,6 +1,5 @@
 package com.v2ray.ang.util
 
-import android.util.Log
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.AppConfig.LOOPBACK
 import com.v2ray.ang.extension.isNotNullEmpty
@@ -89,11 +88,11 @@ object HttpUtil {
 
             val ipList = sortedAddresses.mapNotNull { it.hostAddress }
 
-            Log.i(AppConfig.TAG, "Resolved IPs for $host: ${ipList.joinToString()}")
+            LogUtil.i(AppConfig.TAG, "Resolved IPs for $host: ${ipList.joinToString()}")
 
             return ipList
         } catch (e: Exception) {
-            Log.e(AppConfig.TAG, "Failed to resolve host to IP", e)
+            LogUtil.e(AppConfig.TAG, "Failed to resolve host to IP", e)
             return null
         }
     }
@@ -221,7 +220,7 @@ object HttpUtil {
                 )
             }
         } catch (e: Exception) {
-            Log.e(AppConfig.TAG, "Failed to create proxy connection", e)
+            LogUtil.e(AppConfig.TAG, "Failed to create proxy connection", e)
             // If an exception occurs, close the connection and return null
             conn?.disconnect()
             return null

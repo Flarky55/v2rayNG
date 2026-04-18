@@ -10,8 +10,8 @@ object AppConfig {
     /** Directory names used in the app's file system. */
     const val DIR_ASSETS = "assets"
 
-    const val  WEBDAV_BACKUP_DIR = "backups"
-    const val  WEBDAV_BACKUP_FILE_NAME = "backup_ng.zip"
+    const val WEBDAV_BACKUP_DIR = "backups"
+    const val WEBDAV_BACKUP_FILE_NAME = "backup_ng.zip"
 
     /** Legacy configuration keys. */
     const val ANG_CONFIG = "ang_config"
@@ -54,10 +54,12 @@ object AppConfig {
     const val PREF_GROUP_ALL_DISPLAY = "pref_group_all_display"
     const val PREF_LANGUAGE = "pref_language"
     const val PREF_UI_MODE_NIGHT = "pref_ui_mode_night"
+    const val PREF_IPV6_ENABLED = "pref_ipv6_enabled"
     const val PREF_PREFER_IPV6 = "pref_prefer_ipv6"
     const val PREF_PROXY_SHARING = "pref_proxy_sharing_enabled"
     const val PREF_ALLOW_INSECURE = "pref_allow_insecure"
     const val PREF_SOCKS_PORT = "pref_socks_port"
+    const val PREF_DYNAMIC_SOCKS_PORT = "pref_dynamic_socks_port"
     const val PREF_SOCKS_USERNAME = "pref_socks_username"
     const val PREF_SOCKS_PASSWORD = "pref_socks_password"
     const val PREF_REMOTE_DNS = "pref_remote_dns"
@@ -122,7 +124,8 @@ object AppConfig {
     const val TG_CHANNEL_URL = "https://t.me/github_2dust"
     const val DELAY_TEST_URL = "https://www.gstatic.com/generate_204"
     const val DELAY_TEST_URL2 = "https://www.google.com/generate_204"
-//    const val IP_API_URL = "https://speed.cloudflare.com/meta"
+
+    //    const val IP_API_URL = "https://speed.cloudflare.com/meta"
     const val IP_API_URL = "https://api.ip.sb/geoip"
 
     /** DNS server addresses. */
@@ -281,4 +284,9 @@ object AppConfig {
         "Chocolate4U/Iran-v2ray-rules"
     )
 
+    val BUILTIN_OUTBOUND_TAGS = setOf(
+        TAG_PROXY,
+        TAG_DIRECT,
+        TAG_BLOCKED,
+    )
 }
