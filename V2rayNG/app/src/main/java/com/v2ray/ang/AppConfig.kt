@@ -219,6 +219,7 @@ object AppConfig {
     const val REALITY = "reality"
     const val HEADER_TYPE_HTTP = "http"
 
+    const val UNIDENTIFIED_PACKAGE = "__unknown_app__"
 
     val DEFAULT_HEADERS = mapOf<String, String>(
         "User-agent" to "v2rayNG/${BuildConfig.VERSION_NAME}",
