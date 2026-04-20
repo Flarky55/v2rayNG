@@ -99,6 +99,26 @@ object V2RayServiceManager {
     fun getRunningServerName() = currentConfig?.remarks.orEmpty()
 
     /**
+     * Prepares configuration of the V2Ray service.
+     * @return True if the configuration was prepared successfully, false otherwise.
+     */
+    fun prepareConfig(): Boolean {
+        val guid = MmkvManager.getSelectServer()
+        if (guid == null) {
+            LogUtil.e(AppConfig.TAG, "PrepareConfig: No server selected")
+            return false
+        }
+
+        currentConfig = MmkvManager.decodeServerConfig(guid)
+        if (currentConfig == null) {
+            LogUtil.e(AppConfig.TAG, "PrepareConfig: Failed to decode server config")
+            return false
+        }
+
+        return true
+    }
+
+    /**
      * Starts the context service for V2Ray.
      * Chooses between VPN service or Proxy-only service based on user settings.
      * @param context The context from which the service is started.

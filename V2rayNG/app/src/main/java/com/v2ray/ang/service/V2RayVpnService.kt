@@ -162,6 +162,12 @@ class V2RayVpnService : VpnService(), ServiceControl {
             return
         }
 
+        if (!V2RayServiceManager.prepareConfig()) {
+            LogUtil.e(AppConfig.TAG, "StartCore-VPN: Failed to prepare config")
+            stopSelf()
+            return
+        }
+
         if (configureVpnService() != true) {
             LogUtil.e(AppConfig.TAG, "StartCore-VPN: Configuration failed")
             stopSelf()
